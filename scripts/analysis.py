@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urllib.parse import urlparse
 
+import click
 import yaml
 import dtoolcore
 
