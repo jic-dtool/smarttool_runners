@@ -4,8 +4,6 @@ import shlex
 import subprocess
 
 import click
-import dtoolcore
-
 
 from analysis import Analysis
 
@@ -15,8 +13,9 @@ class LocalRunner(object):
     def __init__(self, analysis):
 
         self.analysis = analysis
-        self.command_base = "python {}".format(self.analysis.config["smarttool"])
-
+        self.command_base = "python {}".format(
+            self.analysis.config["smarttool"]
+        )
 
     def construct_single_process_command(self, identifier):
 
