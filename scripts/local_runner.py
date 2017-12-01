@@ -9,20 +9,18 @@ import dtoolcore
 
 from analysis import Analysis
 
-TOOL_COMMAND_BASE = 'python /Users/hartleym/projects/data_management/smarttools/smarttools/align_seqs_bowtie2/smarttool_runner.py'
-
 
 class LocalRunner(object):
 
     def __init__(self, analysis):
 
         self.analysis = analysis
-        self.command_base = TOOL_COMMAND_BASE
+        self.command_base = "python {}".format(self.analysis.config["smarttool"])
 
 
     def construct_single_process_command(self, identifier):
 
-        command_as_list = shlex.split(TOOL_COMMAND_BASE)
+        command_as_list = shlex.split(self.command_base)
 
         command_as_list += ['-d', self.analysis.input_dataset.uri]
         command_as_list += ['-o', self.analysis.output_dataset.uri]
