@@ -113,10 +113,6 @@ class Analysis(object):
         readme_content += "\nderived_from_UUID: {}".format(self.input_dataset.uuid)
         readme_content += "\nderived_from_URI: '{}'".format(self.input_dataset.uri)
 
-        reference_used = os.environ['BOWTIE2_REFERENCE']
-
-        readme_content += "\nreference_used: {}".format(reference_used)
-
         self.output_dataset.put_readme(readme_content)
 
         self.output_dataset.freeze()
