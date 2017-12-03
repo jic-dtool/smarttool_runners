@@ -3,3 +3,14 @@ input_ds_uri: data/todo_lists
 output_ds_uri: output/slurm_runner/test_slurm_runner
 output_ds_base: output
 smarttool: /Users/olssont/projects/jic-dtool/smarttools/smarttools/simple_example_tool/smarttool_runner.py
+slurm_template: |
+  #!/bin/bash
+  #SBATCH --partition=nbi-short
+  #SBATCH --mem=2000
+  #SBATCH --job-name={name}
+  #SBATCH -o {stdout}
+  #SBATCH -e {stderr}
+
+  export BOWTIE2_REFERENCE={bowtie2_reference}
+  {command}
+  

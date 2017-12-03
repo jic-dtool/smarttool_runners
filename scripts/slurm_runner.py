@@ -9,17 +9,6 @@ import dtoolcore
 
 from analysis import Analysis
 
-SLURM_TEMPLATE = """#!/bin/bash
-#SBATCH --partition=nbi-short
-#SBATCH --mem=2000
-#SBATCH --job-name={name}
-#SBATCH -o {stdout}
-#SBATCH -e {stderr}
-
-export BOWTIE2_REFERENCE={bowtie2_reference}
-{command}
-"""
-
 TOOL_COMMAND_BASE = 'singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py'
 BOWTIE2_REFERENCE = '/nbi/Research-Groups/JIC/Matthew-Hartley/data_raw/irwin_bait_sequencing/bravo_exome_reference/data/bravo_v2'
 
@@ -65,7 +54,8 @@ class SlurmRunner(object):
             "stderr" : os.path.join(self.logs_relpath, "{}.err".format(identifier)),
         }
 
-        return SLURM_TEMPLATE.format(**variables)
+        slurm_template = self.analysis.config["slurm_template"]
+        return slurm_template.format(**variables)
 
 
     def process_single_identifier(self, identifier):
@@ -92,7 +82,8 @@ class SlurmRunner(object):
             "stderr" : os.path.join(self.logs_relpath, "freeze.err"),
         }
 
-        script_contents = SLURM_TEMPLATE.format(**variables)
+        slurm_template = self.analysis.config["slurm_template"]
+        script_contents = slurm_template.format(**variables)
         script_name = "freeze_dataset.slurm"
         script_fpath = os.path.join(self.scripts_path, script_name)
         script_relpath = os.path.relpath(script_fpath, self.base_output_path)
