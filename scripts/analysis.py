@@ -1,5 +1,3 @@
-import os
-
 try:
     from urlparse import urlparse
 except ImportError:
@@ -10,7 +8,6 @@ import yaml
 import dtoolcore
 
 from dtool_cli.cli import (
-    dataset_uri_argument,
     CONFIG_PATH
 )
 
@@ -19,7 +16,7 @@ def create_derived_dataset(
     parent_dataset,
     dest_location_uri,
     name_template
-    ):
+):
 
     parsed_location_uri = urlparse(dest_location_uri)
     prefix = parsed_location_uri.path
@@ -93,7 +90,6 @@ class Analysis(object):
         else:
             return self.input_dataset.identifiers
 
-
     def initialise(self):
 
         output_uri_base = self.config['output_ds_base']
@@ -106,14 +102,16 @@ class Analysis(object):
 
         self._output_dataset = output_ds
 
-
     def finalise(self):
 
         readme_content = self.input_dataset.get_readme_content()
-        readme_content += "\nderived_from_UUID: {}".format(self.input_dataset.uuid)
-        readme_content += "\nderived_from_URI: '{}'".format(self.input_dataset.uri)
+        readme_content += "\nderived_from_UUID: {}".format(
+            self.input_dataset.uuid
+        )
+        readme_content += "\nderived_from_URI: '{}'".format(
+            self.input_dataset.uri
+        )
 
         self.output_dataset.put_readme(readme_content)
 
         self.output_dataset.freeze()
-
