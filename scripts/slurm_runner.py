@@ -2,7 +2,6 @@
 
 import os
 import shlex
-import subprocess
 
 import click
 import dtoolcore
@@ -24,7 +23,10 @@ class SlurmRunner(object):
         dtoolcore.utils.mkdir_parents(self.scripts_path)
 
         self.logs_path = os.path.join(base_output_path, "logs")
-        self.logs_relpath = os.path.relpath(self.logs_path, self.base_output_path)
+        self.logs_relpath = os.path.relpath(
+            self.logs_path,
+            self.base_output_path
+        )
         dtoolcore.utils.mkdir_parents(self.logs_path)
 
         self.master_script = ""
@@ -41,19 +43,26 @@ class SlurmRunner(object):
 
     def construct_single_process_template(self, identifier):
 
-        command_as_list = self.construct_single_process_command_list(identifier)
+        command_as_list = self.construct_single_process_command_list(
+            identifier
+        )
         command_as_string = ' '.join(command_as_list)
 
         variables = {
             "name": "autotest",
-            "command" : command_as_string,
-            "stdout" : os.path.join(self.logs_relpath, "{}.out".format(identifier)),
-            "stderr" : os.path.join(self.logs_relpath, "{}.err".format(identifier)),
+            "command": command_as_string,
+            "stdout": os.path.join(
+                self.logs_relpath,
+                "{}.out".format(identifier)
+            ),
+            "stderr": os.path.join(
+                self.logs_relpath,
+                "{}.err".format(identifier)
+            ),
         }
 
         slurm_template = self.analysis.config["slurm_template"]
         return slurm_template.format(**variables)
-
 
     def process_single_identifier(self, identifier):
 
@@ -69,13 +78,15 @@ class SlurmRunner(object):
         self.master_script += master_script_line
 
     def finalise(self):
-        freeze_command = "dtool freeze {}".format(self.analysis.output_dataset.uri)
+        freeze_command = "dtool freeze {}".format(
+            self.analysis.output_dataset.uri
+        )
 
         variables = {
             "name": "autotest",
-            "command" : freeze_command,
-            "stdout" : os.path.join(self.logs_relpath, "freeze.out"),
-            "stderr" : os.path.join(self.logs_relpath, "freeze.err"),
+            "command": freeze_command,
+            "stdout": os.path.join(self.logs_relpath, "freeze.out"),
+            "stderr": os.path.join(self.logs_relpath, "freeze.err"),
         }
 
         slurm_template = self.analysis.config["slurm_template"]
@@ -87,7 +98,9 @@ class SlurmRunner(object):
         with open(script_fpath, "w") as fh:
             fh.write(script_contents)
 
-        master_script_line = "sbatch --dependency=singleton {}\n".format(script_relpath)
+        master_script_line = "sbatch --dependency=singleton {}\n".format(
+            script_relpath
+        )
         self.master_script += master_script_line
 
         master_script_fpath = os.path.join(self.base_output_path, "runme.sh")
