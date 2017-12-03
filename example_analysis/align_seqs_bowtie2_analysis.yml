@@ -11,6 +11,5 @@ slurm_template: |
   #SBATCH -o {stdout}
   #SBATCH -e {stderr}
 
-  export BOWTIE2_REFERENCE={bowtie2_reference}
+  export BOWTIE2_REFERENCE=/nbi/Research-Groups/JIC/Matthew-Hartley/data_raw/irwin_bait_sequencing/bravo_exome_reference/data/bravo_v2
   {command}
-  

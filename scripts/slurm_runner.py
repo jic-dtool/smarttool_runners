@@ -10,7 +10,6 @@ import dtoolcore
 from analysis import Analysis
 
 TOOL_COMMAND_BASE = 'singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py'
-BOWTIE2_REFERENCE = '/nbi/Research-Groups/JIC/Matthew-Hartley/data_raw/irwin_bait_sequencing/bravo_exome_reference/data/bravo_v2'
 
 class SlurmRunner(object):
 
@@ -48,7 +47,6 @@ class SlurmRunner(object):
 
         variables = {
             "name": "autotest",
-            "bowtie2_reference" : BOWTIE2_REFERENCE,
             "command" : command_as_string,
             "stdout" : os.path.join(self.logs_relpath, "{}.out".format(identifier)),
             "stderr" : os.path.join(self.logs_relpath, "{}.err".format(identifier)),
@@ -76,7 +74,6 @@ class SlurmRunner(object):
 
         variables = {
             "name": "autotest",
-            "bowtie2_reference" : BOWTIE2_REFERENCE,
             "command" : freeze_command,
             "stdout" : os.path.join(self.logs_relpath, "freeze.out"),
             "stderr" : os.path.join(self.logs_relpath, "freeze.err"),
