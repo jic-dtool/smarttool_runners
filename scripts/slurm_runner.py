@@ -9,14 +9,13 @@ import dtoolcore
 
 from analysis import Analysis
 
-TOOL_COMMAND_BASE = 'singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py'
 
 class SlurmRunner(object):
 
     def __init__(self, analysis, base_output_path):
 
         self.analysis = analysis
-        self.command_base = TOOL_COMMAND_BASE
+        self.command_base = analysis.config["tool_command_base"]
 
         base_output_path = os.path.abspath(base_output_path)
         self.base_output_path = base_output_path
@@ -32,7 +31,7 @@ class SlurmRunner(object):
 
     def construct_single_process_command_list(self, identifier):
 
-        command_as_list = shlex.split(TOOL_COMMAND_BASE)
+        command_as_list = shlex.split(self.tool_command_base)
 
         command_as_list += ['-d', self.analysis.input_dataset.uri]
         command_as_list += ['-o', self.analysis.output_dataset.uri]
