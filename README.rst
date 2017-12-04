@@ -35,7 +35,7 @@ generates SLURM batch scripts for submitting jobs to the cluster.
     input_dataset_uri: "irods:///jic_raw_data/rg-matthew-hartley/910d75a1-46f3-4772-8c9d-608f5a266a7f"
     output_dataset_base: "irods:///jic_overflow/rg-matthew-hartley"
     input_overlay_filter: "is_read1"
-    slurm_template: |
+    slurm_run_template: |
       #!/bin/bash -e
       #SBATCH --partition=nbi-short
       #SBATCH --mem=2000
@@ -45,9 +45,21 @@ generates SLURM batch scripts for submitting jobs to the cluster.
 
       export BOWTIE2_REFERENCE=/nbi/Research-Groups/JIC/Matthew-Hartley/data_raw/irwin_bait_sequencing/bravo_exome_reference/data/bravo_v2
       singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py
+    slurm_freeze_template: |
+      #!/bin/bash -e
+      #SBATCH --partition=nbi-short
+      #SBATCH --mem=2000
+      #SBATCH --job-name={name}
+      #SBATCH -o {stdout}
+      #SBATCH -e {stderr}
+
+      /jic/software/testing/dtool/2.3.2/dtool freeze {output_dataset_uri}
 
 The smarttool runner is also responsible for only running the smarttool on the
-dataset items specified by the ``input_overlay_filter``.
+dataset items specified by the ``input_overlay_filter``. If the
+``input_overlay_filter`` specified does not exist in the input dataset then the
+smarttool runner will raise a ``RuntimeError``. However, initially this may be
+the default ``KeyError`` raised by ``dtoolcore``.
 
 The smarttool runner is also responsible for determining if the items from the
 input dataset were processed successfully or not. If any data item failed to
