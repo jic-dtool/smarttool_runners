@@ -51,8 +51,8 @@ dataset items specified by the ``input_overlay_filter``.
 
 The smarttool runner is also responsible for determining if the items from the
 input dataset were processed successfully or not. If any data item failed to
-process correctly the smarttool runner should not freeze the output dataset. It
-should also provide options for finding out which item(s) failed and
-re-processing the failed items. Implementing this is not-trivial and these
-features will not be available in the initial releases of these smarttool
-runners.
+process correctly the smarttool runner should not freeze the output dataset.
+The smarttool runner should also provide an option for identify which item(s)
+failed to process correctly and an option for re-processing the failed items.
+Implementing this is non-trivial and these features will not be available in
+the initial releases of these smarttool runners.
