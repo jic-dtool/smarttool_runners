@@ -1,9 +1,7 @@
-input_dataset: data/todo_lists
-input_ds_uri: data/todo_lists
-output_ds_uri: output/slurm_runner/test_slurm_runner
-output_ds_base: output
-tool_command_base: 'singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py'
-slurm_template: |
+input_dataset_uri: "irods:///jic_raw_data/rg-matthew-hartley/910d75a1-46f3-4772-8c9d-608f5a266a7f"
+output_dataset_base: output/slurm_runner
+input_overlay_filter: "is_read1"
+slurm_run_template: |
   #!/bin/bash
   #SBATCH --partition=nbi-short
   #SBATCH --mem=2000
@@ -12,4 +10,13 @@ slurm_template: |
   #SBATCH -e {stderr}
 
   export BOWTIE2_REFERENCE=/nbi/Research-Groups/JIC/Matthew-Hartley/data_raw/irwin_bait_sequencing/bravo_exome_reference/data/bravo_v2
-  {command}
+  singularity exec /jic/software/testing/align_seqs_bowtie2/0.1.0/align_seqs_bowtie2 python /scripts/smarttool_runner.py -d {input_dataset_uri} -o {output_dataset_uri} -i {identifier}
+slurm_freeze_template: |
+  #!/bin/bash -e
+  #SBATCH --partition=nbi-short
+  #SBATCH --mem=2000
+  #SBATCH --job-name={name}
+  #SBATCH -o {stdout}
+  #SBATCH -e {stderr}
+
+  /jic/software/testing/dtool/2.3.2/dtool freeze {output_dataset_uri}

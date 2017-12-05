@@ -1,3 +1,3 @@
-input_ds_uri: data/todo_lists
-output_ds_base: output
-smarttool: /Users/olssont/projects/jic-dtool/smarttools/smarttools/simple_example_tool/smarttool_runner.py
+input_dataset_uri: data/todo_lists
+output_dataset_base: output/local_runner
+local_smarttool_fpath: /Users/olssont/projects/jic-dtool/smarttools/smarttools/simple_example_tool/smarttool_runner.py

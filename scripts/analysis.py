@@ -66,7 +66,7 @@ class Analysis(object):
     def input_dataset(self):
         if self._input_dataset is None:
             self._input_dataset = dtoolcore.DataSet.from_uri(
-                self.config['input_ds_uri']
+                self.config['input_dataset_uri']
             )
         return self._input_dataset
 
@@ -74,7 +74,7 @@ class Analysis(object):
     def output_dataset(self):
         if self._output_dataset is None:
             self._output_dataset = dtoolcore.ProtoDataSet.from_uri(
-                self.config['output_ds_uri']
+                self.config['output_dataset_uri']
             )
         return self._output_dataset
 
@@ -92,7 +92,7 @@ class Analysis(object):
 
     def initialise(self):
 
-        output_uri_base = self.config['output_ds_base']
+        output_uri_base = self.config['output_dataset_base']
 
         output_ds = create_derived_dataset(
             self.input_dataset,

@@ -14,7 +14,7 @@ class LocalRunner(object):
 
         self.analysis = analysis
         self.command_base = "python {}".format(
-            self.analysis.config["smarttool"]
+            self.analysis.config["local_smarttool_fpath"]
         )
 
     def construct_single_process_command(self, identifier):
