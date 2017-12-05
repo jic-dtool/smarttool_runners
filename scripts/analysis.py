@@ -81,8 +81,8 @@ class Analysis(object):
     @property
     def identifiers_to_process(self):
 
-        if 'input_filter' in self.config:
-            id_filter = self.config['input_filter']
+        if 'input_overlay_filter' in self.config:
+            id_filter = self.config['input_overlay_filter']
             return identifiers_where_overlay_is_true(
                 self.input_dataset,
                 id_filter
